@@ -23,6 +23,21 @@ const StarImg = styled.img`
   height: 15px;
 `;
 
+const Link = styled.a`
+  text-decoration: none;
+  font-size: 15px;
+  color: rgb(0, 48, 179);
+  cursor: pointer;
+
+  &:visited {
+    color: rgb(0, 48, 179);
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
 const Repos = ({ url }: IReposProps) => {
   const [data, setData] = React.useState([]);
   const orderedReposByStars = _.orderBy(data, ["stargazers_count"], ["desc"]);
@@ -50,7 +65,9 @@ const Repos = ({ url }: IReposProps) => {
             <StarImg src={image} />
           </span>
           <p>{repo.stargazers_count}</p>
-          <p>{repo.name}</p>
+          <Link href={repo.html_url} target="_blank">
+            {repo.name}
+          </Link>
         </Container>
       ))}
     </ul>
