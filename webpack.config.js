@@ -27,7 +27,15 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: ["style-loader" , "css-modules-typescript-loader", "css-loader", "sass-loader" ],
-            }
+            },
+            {
+                test: /\.(png)$/i,
+                use: [
+                  {
+                    loader: 'file-loader',
+                  },
+                ],
+            },
         ]
     },
     resolve: {

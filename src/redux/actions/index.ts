@@ -1,19 +1,18 @@
 import { Dispatch } from "redux"
-import { getUsers, API } from "../utils"
-
-interface IActionsType {
-    GET_USERS_ON_SUCCESS: string
-    GET_SELECTED_USER: string
-}
+import { API, fetchData } from "../../utils"
+import { IActionsType } from "./index.modules"
 
 export const actionsType: IActionsType = {
+    START_REQUEST: "START_REQUEST",
     GET_USERS_ON_SUCCESS: "GET_USERS_ON_SUCCESS",
-    GET_SELECTED_USER: "GET_SELECTED_USER"
+    GET_SELECTED_USER: "GET_SELECTED_USER",
+    END_REQUEST: "END_REQUEST"
 }
 
 export const getUsersList = async (dispatch: Dispatch, username: string) => {
+    dispatch({ type: actionsType.START_REQUEST })
     try {
-        const res = await getUsers(`https://api.github.com/search/users?q=${username}+in%3Alogin&type=Users`)
+        const res = await fetchData(API.users(username))
         const data = res.data.items
         dispatch({
             type: actionsType.GET_USERS_ON_SUCCESS,
@@ -22,6 +21,7 @@ export const getUsersList = async (dispatch: Dispatch, username: string) => {
     } catch (err) {
         return err
     }
+    dispatch({ type: actionsType.END_REQUEST })
 }
 
 export const setSelectedUserUrl = (dispatch: Dispatch, selectedUserURL: string) =>
